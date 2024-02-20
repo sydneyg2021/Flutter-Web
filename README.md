@@ -22,3 +22,14 @@ Make sure you have the following installed on your system:
     docker run -it --rm -v $(pwd):/app Flutter-Web:latest
 
 This command mounts your project directory into the container and starts an interactive session.
+
+## Example - How to run a web application
+1. Create a directory for your application in the dart terminal (i.e app):
+   ```bash
+   Flutter create app
+2. Change into that directory:
+    ```bash
+    cd app
+3. Run the app (in this case the default flutter application):
+    ```bash
+    flutter run -d web-server
