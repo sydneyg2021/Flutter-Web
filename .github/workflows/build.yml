@@ -1,0 +1,40 @@
+name: Flutter Pipeline Build
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository 
+        - uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        - uses: subosito/flutter-action@v2
+          with:
+            channel: 'stable' #Flutter Version
+
+      - name: Verify Flutter Dependencies
+        run: flutter doctor
+
+      - name: Install Necessary APP Dependencies
+        working-directory: ./app
+        run: flutter pub get
+
+      - name: Run Flutter Tests
+        working-directory: ./app
+        run: flutter test
+
+      - name: Build flutter web
+        working-directory: ./app
+        run: flutter build web
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./app/build/web/
+
