@@ -22,10 +22,10 @@ For this project, I used Git instead of other methods like Bazaar or Concurrent 
 
 ## Common Commands and Usage
 _Common version control commands used:_
-`git clone <repository-url>`: Clones a repository onto the local machine.
-`git commit -m "Add new feature"`: Commits changes to the repository with a message.
-`git pull origin <branch-name>`: Push changes from the local repository to a remote repository.
-`git push origin <branch-name>`: Pushes changes from the local repository and merges them into the current branch.
+* `git clone <repository-url>`: Clones a repository onto the local machine.
+* `git commit -m "Add new feature"`: Commits changes to the repository with a message.
+* `git pull origin <branch-name>`: Push changes from the local repository to a remote repository.
+* `git push origin <branch-name>`: Pushes changes from the local repository and merges them into the current branch.
 
 
 ## Collaboration Features
@@ -35,7 +35,7 @@ As explained earlier above in the **Introduction** section, Version control tool
 * Code reviews leverage team expertise for continuous improvement. Conflict resolution tools help reconcile conflicting changes efficiently. 
 
 ## Challenges and Solutions
-Due to my previous use of Git version control, I did not encounter any issues deploying push and pull requests and could accurately use version control for its intended functionalities. If I had, I would've referred back to the Git documentation to see if I could find any help. 
+Due to my previous use of Git version control, I did not encounter any current issues deploying push and pull requests and could accurately use version control for its intended functionalities. But, if issues occur in the future, refer to the [Issues](https://github.com/sydneyg2021/Flutter-Web/issues) section for this repository.
 
 ## Conclusion
 In conclusion, utilizing Git for our Flutter project allows for concurrent development, preventing conflicts, and facilitating efficient collaboration among team members. Pull requests and code reviews ensure code quality and adherence to standards before merging changes. Git's conflict resolution tools aid in reconciling conflicting changes seamlessly. Integrating version control into our development workflow has provided insights into structured collaboration, streamlined code management, and enhanced project transparency. Overall, Git enhances productivity, code quality, and team coordination, fostering a cohesive and efficient development environment for our Flutter project.
