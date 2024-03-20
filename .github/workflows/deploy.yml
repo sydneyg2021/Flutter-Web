@@ -1,5 +1,5 @@
 name: Deploy
-on: push
+on: build
 jobs: 
   deploy:
     needs: build
