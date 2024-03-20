@@ -24,7 +24,7 @@ For this project, I used Git instead of other methods like Bazaar or Concurrent 
 _Common version control commands used:_
 * `git clone <repository-url>`: Clones a repository onto the local machine.
 * `git commit -m "Add new feature"`: Commits changes to the repository with a message.
-* `git pull origin <branch-name>`: Push changes from the local repository to a remote repository.
+* `git pull origin <branch-name>`: Pulls from and integrates with another repository or a local branch. Incorporates changes from a remote repository into the current branch. 
 * `git push origin <branch-name>`: Pushes changes from the local repository and merges them into the current branch.
 
 
