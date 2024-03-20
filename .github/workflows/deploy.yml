@@ -1,12 +1,21 @@
-name: Deploy
-on: build
-jobs: 
-  deploy:
-    needs: build
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deployment:
     runs-on: ubuntu-latest
+
     steps:
-        - name: Web Deploy
-          uses: peaceiris/actions-gh-pages@v3
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Web App Deploy
+        uses: peaceiris/actions-gh-pages@v3
           with:
             github_token: ${{ secrets.GITHUB_TOKEN }}
             publish_dir: ./app/build/web/ 
+            #cname: example.com 
