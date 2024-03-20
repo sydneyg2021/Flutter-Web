@@ -1,37 +1,27 @@
-name: Flutter Pipeline Build
+name: Flutter Build Stage (Web App)
 
 on:
-  push:
-    branches: [ "main" ]
+  workflow_call:
+    inputs:
+      app_dir:
+        description: 'Where to build web app'
+        default: './'
+        required: true
+        type: string
 
 jobs:
   build:
-    runs-on: ubuntu-latest
-
+    defaults:
+      run:
+        working-directory: ${{ inputs.app_dir }}
+    
     steps:
-      - uses: actions/checkout@v4
-      - uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable' #Flutter Version
-
-      - name: Verify Flutter Dependencies
-        run: flutter doctor
-
-      - name: Install Necessary APP Dependencies
-        working-directory: ./app
+      - name: install app dependencies
         run: flutter pub get
 
-      - name: Run Flutter Tests
-        working-directory: ./app
+      - name: Run tests
         run: flutter test
 
       - name: Build flutter web
-        working-directory: ./app
         run: flutter build web
-
-      - name: Deploy
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./app/build/web/
 
