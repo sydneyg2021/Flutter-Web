@@ -21,4 +21,6 @@ jobs:
         with:
             github_token: ${{ secrets.GITHUB_TOKEN }}
             publish_dir: ./app/build/web/ 
-            cname: https://sydneyg2021.github.io
+            user_name: ${{ github.actor }}
+            user_email: ${{ github.actor }}@users.noreply.github.com
+            publish_branch: gh-pages
