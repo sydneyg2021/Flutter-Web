@@ -1,17 +1,12 @@
 on:
-  push:
-    branches: [ "main" ]
+  workflow_call:
 
 jobs:
-  deploy:
+  deployment:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: ./app
-
     steps:
-      - name: Web App Deploy
+      - name: Web Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./app/build/web/
+          publish_dir: ./app/build/web/ 
