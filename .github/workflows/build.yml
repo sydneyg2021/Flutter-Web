@@ -15,7 +15,7 @@ jobs:
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
-          channel: 'Stable'
+          channel: 'stable'
 
       - name: Install Flutter App Dependencies
         working-directory: ./app
