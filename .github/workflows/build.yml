@@ -2,36 +2,33 @@ name: Flutter Build
 
 on:
   push:
-    branches:
-      - main
+    branches: [ "main" ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: install app dependencies
+        working-directory: ./app
+        run: flutter pub get
+
+      - name: Run tests
+        working-directory: ./app
+        run: flutter test
+
+      - name: Build flutter web
+        working-directory: ./app
+        run: flutter build web
+
       
-    - name: Setup Flutter
-      uses: subosito/flutter-action@v2
-      with:
-        flutter-version: '2.10.1'  # Specify the Flutter version
-        
-    - name: Verify Flutter Dependencies
-      run: flutter doctor
-      
-    - name: Install Flutter Application Dependencies
-      run: flutter pub get
-      
-    - name: Run Flutter Tests
-      run: flutter test
-      
-    - name: Build Flutter Web Application
-      run: flutter build web
-      
-    - name: Upload Artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: web-build
-        path: build/web
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./app/build/web/
