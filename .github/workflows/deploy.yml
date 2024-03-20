@@ -1,9 +1,12 @@
 name: Github Pages Deployment
 
 on:
-    workflow_call:  
+   workflow_call:
   
   jobs:
+    call-workflow:
+    uses: sydneyg2021/Flutter-Web/.github/workflows/build.yml@v1
+
     deployment:
       steps:
         - name: Web Deploy
