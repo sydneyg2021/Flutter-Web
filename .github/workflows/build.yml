@@ -9,13 +9,10 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository 
-        - uses: actions/checkout@v4
-
-      - name: Setup Flutter
-        - uses: subosito/flutter-action@v2
-          with:
-            channel: 'stable' #Flutter Version
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable' #Flutter Version
 
       - name: Verify Flutter Dependencies
         run: flutter doctor
