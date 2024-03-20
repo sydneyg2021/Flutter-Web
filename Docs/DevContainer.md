@@ -22,7 +22,7 @@ In my DevContainer, I also installed specific Dart and Flutter extensions for Vi
 ## Usage
 **Using a DevContainer for Flutter Development Workflow**
 ### Prerequisites
-Make sure Docker is installed on your system before continuing.
+Make sure [Docker](https://www.docker.com/get-started/) is installed on your system before continuing.
 
 ### Getting Started
 
