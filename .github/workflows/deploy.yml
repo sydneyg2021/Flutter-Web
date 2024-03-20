@@ -1,10 +1,7 @@
-on:
-  workflow_call:
-
-jobs:
-  deployment:
-    runs-on: ubuntu-latest
-    steps:
+deploy:
+  needs: build
+  runs-on: ubuntu-latest
+  steps:
       - name: Web Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
