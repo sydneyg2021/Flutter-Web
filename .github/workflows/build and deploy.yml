@@ -1,13 +1,8 @@
 name: Flutter Build
 
 on:
-  workflow_call:
-    inputs:
-      app_dir:
-        description: 'The location of the flutter app that will be built'
-        default: './'
-        required: true
-        type: string
+  push:
+    branches: [ "main" ]
 
 jobs:
   build:
