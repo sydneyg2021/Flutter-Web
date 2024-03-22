@@ -47,7 +47,7 @@ jobs:
 
     steps:
       - name: Deploy App to Web
-      working-directory: ./.github/workflow
+        working-directory: ./.github/workflow
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
