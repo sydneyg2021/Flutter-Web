@@ -61,16 +61,32 @@ jobs:
 
   deploy: 
     needs: test
+
+    environment:
+      name: production
+      url: ${{ steps.deployment.outputs.page_url }}
+
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout Repository
+      - name: checkout repo
         uses: actions/checkout@v2
+
+      - name: Flutter deploy setup
+        uses: subosito/flutter-action@v2
+        with:
+          channel: 'stable'
+
+      - name: Install
+        run: flutter pub get
+    
+      - name: Build
+        run: flutter build web
         
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./app/build/web
+          publish_dir: ./build/web
 
 
