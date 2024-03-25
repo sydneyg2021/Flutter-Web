@@ -40,6 +40,12 @@ jobs:
 
   test: 
     needs: build
+
+    permissions:
+      contents: write
+      pages: write     
+      id-token: write  
+      
     runs-on: ubuntu-latest
 
     steps:
