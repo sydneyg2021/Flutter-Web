@@ -44,7 +44,6 @@ jobs:
 
     steps: 
       - name: Run tests
-        working-directory: ./app
         run: flutter test
 
   deploy: 
