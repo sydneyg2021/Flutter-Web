@@ -78,9 +78,11 @@ jobs:
           channel: 'stable'
 
       - name: Install
+        working-directory: ./app 
         run: flutter pub get
     
       - name: Build
+        working-directory: ./app
         run: flutter build web
         
       - name: Deploy to GitHub Pages
