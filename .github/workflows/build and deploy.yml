@@ -1,11 +1,11 @@
-name: Flutter Web App Build -> Deploy
+name: Flutter Pipeline
 
 on:
   push:
     branches: [ "main" ]
 
 jobs:
-  build:
+  build-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -42,32 +42,6 @@ jobs:
         working-directory: ./app
         run: flutter test
 
-  deploy: 
-    needs: build
-
-    environment:
-      name: github-pages
-      url: ${{ steps.deploy.outputs.page_url }}
-
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: checkout repo
-        uses: actions/checkout@v2
-
-      - name: Flutter deploy setup
-        uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-
-      - name: Install
-        working-directory: ./app 
-        run: flutter pub get
-    
-      - name: Build
-        working-directory: ./app
-        run: flutter build web
-        
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
