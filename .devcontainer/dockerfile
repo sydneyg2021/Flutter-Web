@@ -1,12 +1,23 @@
 FROM mcr.microsoft.com/devcontainers/base:ubuntu
 
 # Apt
-RUN apt-get update
-RUN apt-get install -y wget xz-utils git curl file unzip zip
+RUN apt-get update && \
+    apt-get install -y wget xz-utils git curl file unzip zip openjdk-17-jdk && \
+    rm -rf /var/lib/apt/lists/*
 
 # Flutter
 RUN git clone -b master https://github.com/flutter/flutter.git /sdk/flutter
-RUN ./sdk/flutter/bin/flutter --version
 ENV PATH="/sdk/flutter/bin:${PATH}"
-RUN chmod -R 777 /sdk/flutter
 
+# Install Android SDK
+RUN yes | /sdk/flutter/bin/flutter doctor --android-licenses
+RUN /sdk/flutter/bin/flutter doctor --android-sdk=/opt/android-sdk
+
+# Install Chrome
+RUN apt-get update && apt-get install -y google-chrome-stable
+
+# Install Linux toolchain
+RUN apt-get update && apt-get install -y clang cmake ninja-build pkg-config
+
+# Set environment variable for Chrome executable
+ENV CHROME_EXECUTABLE=/usr/bin/google-chrome-stable
