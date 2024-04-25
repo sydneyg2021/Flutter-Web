@@ -12,9 +12,13 @@ ENV PATH="/sdk/flutter/bin:${PATH}"
 # Install Android SDK
 RUN yes | /sdk/flutter/bin/flutter doctor --android-licenses
 
-# Install Chrome
-RUN apt-get update && apt-get install -y google-chrome-stable
+# Download and install Chrome
+RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
+    apt-get update && \
+    apt-get install -y ./google-chrome-stable_current_amd64.deb && \
+    rm google-chrome-stable_current_amd64.deb
 
+    
 # Install Linux toolchain
 RUN apt-get update && apt-get install -y clang cmake ninja-build pkg-config
 
