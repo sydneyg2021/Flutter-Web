@@ -33,3 +33,9 @@ RUN chown -R $(whoami) /sdk/flutter
 
 # Set working directory
 WORKDIR /workspace
+
+# Change ownership of workspace directory
+RUN chown -R $(whoami) /workspace
+
+# Switch to non-root user
+USER vscode
