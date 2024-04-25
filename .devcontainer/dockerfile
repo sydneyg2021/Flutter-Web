@@ -11,13 +11,16 @@ ENV PATH="/sdk/flutter/bin:${PATH}"
 
 # Install Android SDK
 RUN yes | /sdk/flutter/bin/flutter doctor --android-licenses
-RUN /sdk/flutter/bin/flutter doctor --android-sdk=/opt/android-sdk
 
 # Install Chrome
 RUN apt-get update && apt-get install -y google-chrome-stable
 
 # Install Linux toolchain
 RUN apt-get update && apt-get install -y clang cmake ninja-build pkg-config
+
+# Set environment variables
+ENV ANDROID_HOME=/opt/android-sdk
+ENV PATH="${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:${PATH}"
 
 # Set environment variable for Chrome executable
 ENV CHROME_EXECUTABLE=/usr/bin/google-chrome-stable
