@@ -1,45 +1,11 @@
 FROM mcr.microsoft.com/devcontainers/base:ubuntu
 
 # Apt
-RUN apt-get update && \
-    apt-get install -y wget xz-utils git curl file unzip zip openjdk-17-jdk && \
-    rm -rf /var/lib/apt/lists/*
-
-# Configure Git user and email
-RUN git config --global user.name "Your Name" && \
-    git config --global user.email "your.email@example.com"
+RUN apt-get update
+RUN apt-get install -y wget xz-utils git curl file unzip zip
 
 # Flutter
 RUN git clone -b master https://github.com/flutter/flutter.git /sdk/flutter
+RUN ./sdk/flutter/bin/flutter --version
 ENV PATH="/sdk/flutter/bin:${PATH}"
-
-# Install Android SDK
-RUN yes | /sdk/flutter/bin/flutter doctor --android-licenses
-
-# Download and install Chrome
-RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb && \
-    apt-get update && \
-    apt-get install -y ./google-chrome-stable_current_amd64.deb && \
-    rm google-chrome-stable_current_amd64.deb
-
-# Install Linux toolchain
-RUN apt-get update && apt-get install -y clang cmake ninja-build pkg-config
-
-# Set environment variables
-ENV ANDROID_HOME=/opt/android-sdk
-ENV PATH="${ANDROID_HOME}/tools:${ANDROID_HOME}/tools/bin:${ANDROID_HOME}/platform-tools:${PATH}"
-
-# Set environment variable for Chrome executable
-ENV CHROME_EXECUTABLE=/usr/bin/google-chrome-stable
-
-# Change ownership of Flutter SDK directory
-RUN chown -R $(whoami) /sdk/flutter
-
-# Set working directory
-WORKDIR /workspace
-
-# Change ownership of workspace directory
-RUN chown -R $(whoami) /workspace
-
-# Switch to non-root user
-USER vscode
+RUN chmod -R 777 /sdk/flutter
