@@ -5,36 +5,6 @@ FROM ubuntu:latest
 RUN apt-get update && \
     apt-get install -y curl git unzip xz-utils zip libglu1-mesa
 
-# Install Flutter SDK
+# Download and set up the Flutter SDK
 RUN git clone https://github.com/flutter/flutter.git /usr/local/flutter
 ENV PATH="/usr/local/flutter/bin:${PATH}"
-
-# Accept Flutter licenses
-RUN flutter doctor -v
-
-# Set the working directory in the container
-WORKDIR /app
-
-# Copy the Flutter app to the container
-COPY . .
-
-# Install dependencies
-RUN flutter pub get
-
-# (Optional) Run tests
-RUN flutter test
-
-# Build the Flutter app
-RUN flutter build apk --release
-
-# Use lightweight image for the final build
-FROM scratch
-
-# Copy the built Flutter app from the previous stage
-COPY --from=base /app/build/app/outputs/flutter-apk/app-release.apk /app-release.apk
-
-# Expose any ports the app needs
-EXPOSE 8080
-
-# Command to run the application
-CMD ["echo", "Flutter app is running"]
