@@ -9,9 +9,7 @@ RUN apt-get update && \
 RUN git clone -b master https://github.com/flutter/flutter.git /sdk/flutter
 RUN ./sdk/flutter/bin/flutter --version
 ENV PATH="/sdk/flutter/bin:${PATH}"
-RUN chmod -R 777 /sdk/flutter
-RUN sudo chown -R $(whoami) /sdk/flutter/bin/cache/libimobiledevice.stamp
-RUN sudo chown -R $(whoami) /sdk/flutter/bin/cache/usbmuxd.stamp
+RUN chmod -R 777 /sdk/flutter/bin
 
 
 # Android SDK	
