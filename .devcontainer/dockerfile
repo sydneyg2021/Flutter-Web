@@ -1,10 +1,13 @@
 # Use Ubuntu as the base image
-FROM ubuntu:latest
+FROM mcr.microsoft.com/devcontainers/base:ubuntu
 
 # Install necessary dependencies
 RUN apt-get update && \
     apt-get install -y curl git unzip xz-utils zip libglu1-mesa
 
-# Download and set up the Flutter SDK
-RUN git clone https://github.com/flutter/flutter.git /usr/local/flutter
-ENV PATH="/usr/local/flutter/bin:${PATH}"
+# Flutter
+RUN git clone -b master https://github.com/flutter/flutter.git /sdk/flutter
+RUN ./sdk/flutter/bin/flutter --version
+ENV PATH="/sdk/flutter/bin:${PATH}"
+RUN chmod -R 777 /sdk/flutter
+
