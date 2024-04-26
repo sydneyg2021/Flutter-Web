@@ -1,64 +1,40 @@
-FROM ubuntu:latest
+# Use Ubuntu as the base image
+FROM ubuntu:latest AS base
 
-ARG USERNAME=vscode
-ARG USER_UID=1000
-ARG USER_GID=$USER_UID
+# Install necessary dependencies
+RUN apt-get update && \
+    apt-get install -y curl git unzip xz-utils zip libglu1-mesa
 
-#
-# Install needed packages, setup user anda clean up.
-RUN  apt update \
-	&& apt install -y sudo \
-	&& apt install -y openjdk-11-jdk-headless --no-install-recommends \
-	&& apt install -y wget curl git xz-utils zip unzip --no-install-recommends 
-	
-	# Clean Up
-RUN	apt-get autoremove -y \
-	&& apt-get clean -y \
-	&& rm -rf /var/lib/apt/lists/* 
+# Install Flutter SDK
+RUN git clone https://github.com/flutter/flutter.git /usr/local/flutter
+ENV PATH="/usr/local/flutter/bin:${PATH}"
 
+# Accept Flutter licenses
+RUN flutter doctor -v
 
-#
-# Android SDK
-# https://developer.android.com/studio#downloads
-ENV ANDROID_SDK_TOOLS_VERSION=8512546
-ENV ANDROID_PLATFORM_VERSION=33
-ENV ANDROID_BUILD_TOOLS_VERSION=33.0.0
-ENV ANDROID_HOME=~/android-sdk-linux
-ENV ANDROID_SDK_ROOT="$ANDROID_HOME"
-ENV PATH=${PATH}:${ANDROID_HOME}/cmdline-tools/cmdline-tools/bin:${ANDROID_HOME}/platform-tools:${ANDROID_HOME}/emulator
+# Set the working directory in the container
+WORKDIR /app
 
-#
-# Flutter SDK
-# https://flutter.dev/docs/development/tools/sdk/releases?tab=linux
-ENV FLUTTER_CHANNEL="stable"
-ENV FLUTTER_VERSION="3.3.4"
-# Make sure to use the needed channel and version for this.
-ENV FLUTTER_HOME=~/flutter
-ENV PATH=${PATH}:${FLUTTER_HOME}/bin
+# Copy the Flutter app to the container
+COPY . .
 
+# Install dependencies
+RUN flutter pub get
 
+# (Optional) Run tests
+RUN flutter test
 
-# Android SDK	
-RUN curl -C - --output android-sdk-tools.zip https://dl.google.com/android/repository/commandlinetools-linux-${ANDROID_SDK_TOOLS_VERSION}_latest.zip \
-	&& mkdir -p ${ANDROID_HOME}/ \
-	&& unzip -q android-sdk-tools.zip -d ${ANDROID_HOME}/cmdline-tools/ \
-	&& rm android-sdk-tools.zip \
-	&& yes | sdkmanager --licenses \
-	&& touch $HOME/.android/repositories.cfg \
-	&& sdkmanager platform-tools \
-	&& sdkmanager emulator \
-	&& sdkmanager "platforms;android-${ANDROID_PLATFORM_VERSION}" "build-tools;$ANDROID_BUILD_TOOLS_VERSION" \
-	&& sdkmanager --install "cmdline-tools;latest" 
-# create emulator android	
-RUN  sdkmanager "system-images;android-${ANDROID_PLATFORM_VERSION};google_apis;x86_64" \
-	 && avdmanager create avd -n Android${ANDROID_PLATFORM_VERSION} -k "system-images;android-${ANDROID_PLATFORM_VERSION};google_apis;x86_64"
+# Build the Flutter app
+RUN flutter build apk --release
 
+# Use lightweight image for the final build
+FROM scratch
 
-# Flutter SDK
-RUN curl -C - --output flutter.tar.xz https://storage.googleapis.com/flutter_infra_release/releases/${FLUTTER_CHANNEL}/linux/flutter_linux_${FLUTTER_VERSION}-${FLUTTER_CHANNEL}.tar.xz \
-	&& tar -xf flutter.tar.xz -C ~ \
-	&& rm flutter.tar.xz \
-	&& flutter config --android-sdk "${ANDROID_SDK_ROOT}" \
-	&& yes | flutter doctor --android-licenses \
-	&& flutter config --no-analytics \
-	&& flutter update-packages
+# Copy the built Flutter app from the previous stage
+COPY --from=base /app/build/app/outputs/flutter-apk/app-release.apk /app-release.apk
+
+# Expose any ports the app needs
+EXPOSE 8080
+
+# Command to run the application
+CMD ["echo", "Flutter app is running"]
